@@ -86,6 +86,12 @@ export function drawTitle(ctx, ui) {
     const rect = { x: startX + index * (cardWidth + gap), y: 248, w: cardWidth, h: 108 };
     const selected = index === difficultyIndex;
     const won = (wins[difficulty.id] ?? 0) > 0;
+    // Opaque backing first: the arena's drifting wisps swim behind the title
+    // screen and used to show through the translucent card and wash over the
+    // "Score x1.25" line on the Storm card. The tint goes on top unchanged.
+    ctx.fillStyle = '#02101e';
+    roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 14);
+    ctx.fill();
     ctx.fillStyle = selected ? 'rgba(255, 209, 102, 0.22)' : 'rgba(2, 16, 30, 0.75)';
     roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 14);
     ctx.fill();
