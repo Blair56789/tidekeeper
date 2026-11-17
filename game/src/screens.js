@@ -88,24 +88,26 @@ export function drawTitle(ctx, ui) {
     const won = (wins[difficulty.id] ?? 0) > 0;
     // Opaque backing first: the arena's drifting wisps swim behind the title
     // screen and used to show through the translucent card and wash over the
-    // "Score x1.25" line on the Storm card. The tint goes on top unchanged.
+    // "Score x1.25" line on the Storm card. The fill below goes on top of it.
     ctx.fillStyle = '#02101e';
     roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 14);
     ctx.fill();
-    ctx.fillStyle = selected ? 'rgba(255, 209, 102, 0.22)' : 'rgba(2, 16, 30, 0.75)';
+    // Per Nạp Lan's review (group msg 5408): the selected card is filled
+    // opaque #0b3049, so no drifting wisp can wash over its text.
+    ctx.fillStyle = selected ? '#0b3049' : 'rgba(2, 16, 30, 0.75)';
     roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 14);
     ctx.fill();
     ctx.strokeStyle = selected ? '#ffd166' : 'rgba(127, 231, 255, 0.4)';
     ctx.lineWidth = selected ? 3 : 2;
     roundRect(ctx, rect.x, rect.y, rect.w, rect.h, 14);
     ctx.stroke();
-    ctx.fillStyle = selected ? '#ffd166' : '#ffffff';
+    ctx.fillStyle = selected ? '#d9f4ff' : '#ffffff';
     ctx.font = '700 24px "Trebuchet MS", Verdana, sans-serif';
     ctx.fillText(difficulty.name, rect.x + rect.w / 2, rect.y + 38);
-    ctx.fillStyle = '#bfe8ff';
+    ctx.fillStyle = selected ? '#d9f4ff' : '#bfe8ff';
     ctx.font = '600 14px "Trebuchet MS", Verdana, sans-serif';
     ctx.fillText(difficulty.tag, rect.x + rect.w / 2, rect.y + 62);
-    ctx.fillStyle = won ? '#7dffa8' : 'rgba(191,232,255,0.55)';
+    ctx.fillStyle = won ? '#7dffa8' : (selected ? '#d9f4ff' : 'rgba(191,232,255,0.55)');
     ctx.font = '700 13px "Trebuchet MS", Verdana, sans-serif';
     ctx.fillText(won ? '✓ Reef saved' : `Score x${difficulty.score}`, rect.x + rect.w / 2, rect.y + 88);
     buttons.push({ id: `difficulty:${difficulty.id}`, ...rect });
